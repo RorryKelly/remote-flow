@@ -1,0 +1,71 @@
+.dropdownMenu{
+    display:block;
+    position: absolute;
+    width: 25rem;
+    right: 0;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin-right: inline-margin;
+    margin-top: 10px;
+    background-color: var(--white);
+    font-size: 0.75rem;
+    z-index: 1;
+}
+
+.dropdownMenu > * {
+    margin-inline: 5%;
+}
+
+.dropdownMenu img{
+    margin-inline: auto;
+    margin-block: 1.5rem;
+    display: block;
+}
+
+.loginText{
+    color: var(--secondary-text);
+    font-family: 'Plus Jakarta Sans';
+}
+
+.stayLoggedIn{
+    display: flex;
+    gap: 0.5rem;
+    color: var(--secondary-text);
+    font-weight: 700;
+}
+
+.loginText p{
+    margin-block: 0.5rem;
+}
+
+.loginInput{
+    all: unset;
+    min-width: calc(95% - 0.75rem);
+    border: 1px solid var(--off-white);
+    border-radius: 8px;
+    padding: 0.75rem;
+}
+
+.loginInput:focus{
+    border: 2px solid var(--off-white);
+}
+
+.loginButton{
+    height: 3.438rem;
+    width: 100%;
+    border-radius: 8px;
+    color: var(--white);
+    background-color: var(--primary-text);
+    font-family: 'Plus Jakarta Sans';
+    font-weight: 700;
+    font-size: 1.125rem;
+}
+
+.loginButton:active{
+    filter: brightness(90%);
+}
+
+.loginButton img{
+    margin-block: 0;
+    margin-inline: auto;
+}

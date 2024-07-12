@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+
+:root {
+    --white: #ffffff;
+    --primary-text: #3E506F;
+    --secondary-text: #3A5488;
+    --off-white: #FAFBFD;
+    --primary-surface: #878CAB;
+    --main-font: "DM Sans";
+    font-family: "DM Sans", sans-serif;
+    color: var(--primary-text);
+    font-weight: 500;
+    
+}
+
+body{
+    margin: 0;
+    font-smooth: 2em;    
+    filter:saturate(1.25) grayscale(0.3);
+}
+
+hr{
+    stroke-width: 2px;
+    color: #DEE5ED;
+    width: 100%;
+    margin-top: 2.344rem;
+}
+
+.button{
+    padding-inline: 20px;
+    padding-block: 12px;
+    border-radius: 50px;
+    font-size: 1rem;
+    display: inline-block;
+    position: relative;
+
+}
+
+.button.dark{
+    color: var(--white);
+    background-color: var(--primary-text);
+}
+
+.button:active{
+    filter: brightness(90%);
+}
+
+.button.light{
+    background-color: var(--white);
+    color: var(--primary-text);
+    border: var(--primary-text) solid 1px;
+}
