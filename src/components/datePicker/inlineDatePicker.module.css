@@ -1,0 +1,14 @@
+.dueDate{
+    min-width: 5rem;
+    min-height: 1rem;
+    cursor: pointer;
+}
+
+.dueDate p{
+    margin: 0;
+    padding-block: 0.5rem;
+}
+
+.dueDate:hover{
+    border: 1px solid var(--primary-text);
+}

@@ -1,0 +1,50 @@
+.appContainer{
+    height: 100svh;
+    max-height: 100svh;
+    max-width: 100svw;
+    background-color: var(--off-white);
+    display: flex;
+}
+
+.navSidebarContainer{
+    height: 100%;
+    width: 4.688rem;
+}
+
+.navSidebar{
+    color: var(--white);
+    box-sizing: border-box;
+    height: 100%;
+    width: 3.75rem;
+    background-color: var(--primary-surface);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 0.5rem;
+}
+
+.iconBlock{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+    gap: 1.25rem;
+}
+
+.mainContent{
+    padding: 3rem;
+    width: 100%;
+    box-sizing: border-box;
+    max-height: 100%;
+    overflow: auto;
+    position: relative;
+}
+
+.chatboxContainer{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 2rem;
+}

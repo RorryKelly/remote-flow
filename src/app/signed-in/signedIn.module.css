@@ -1,0 +1,9 @@
+
+.view{
+    box-sizing: border-box;
+    height: 100svh;
+    width: 100svw;
+    background-color: var(--primary-surface);
+    display: flex;
+    align-items: center;
+}

@@ -2,8 +2,12 @@ import Image from 'next/image';
 import styles from './app.module.css';
 import { FaCheck } from "react-icons/fa6";
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
-import DropdownButton from "../../../components/dropdownButton/DropdownButton";
-import { signIn } from '@/auth';
+import DropdownButton from "../../components/dropdownButton/DropdownButton";
+import { auth, signIn } from '@/auth';
+import { redirect } from 'next/navigation';
+import { getUserAppAccount, getUserProjects } from '@/lib/db';
+import { AppAccount, Project } from '@/lib/definitions';
+
 
 export default function LandingPage() {
   return (
@@ -21,7 +25,7 @@ export default function LandingPage() {
 function Navbar() {
   const googleLogin = async () => {
       'use server'
-      await signIn("google");
+      await signIn("google", {redirectTo: '/signed-in'});
   }
   return (
     <nav id='navigation bar' className={styles.navbar}>
@@ -36,7 +40,7 @@ function Navbar() {
         <li>Home</li>
         <li>About Us</li>
         <li>
-          <DropdownButton googleLogin={googleLogin}/>
+          <DropdownButton  googleLogin={googleLogin}/>
         </li>
       </ul>
     </nav>

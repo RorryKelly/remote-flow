@@ -1,0 +1,95 @@
+.description{
+    display: block;
+    position: relative;
+    min-height: 18.75rem;
+    border: 2px solid var(--primary-surface);
+    padding: 0.5rem;
+    cursor:pointer;
+}
+
+.description::after{
+    font-size: 1.5rem;
+    content: 'Click to edit';
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+}
+
+.description > * {
+    margin: 0;
+}
+
+.commentButton{
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 40%;
+    border: 1px solid var(--primary-surface);
+    margin-inline: auto;
+    margin-block: 1rem;
+}
+
+.commentInput{
+    position: relative;
+}
+
+.postComment{
+    background-color: var(--white);
+    color: black;
+    border: 1px solid var(--primary-surface);
+    border-radius: 0.4rem;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 1rem;
+}
+
+.inlineEditorContainer{
+    position: relative;
+}
+
+.inlineEditorInput{
+    display: flex;
+}
+
+.loginInput{
+    width: 10rem;
+}
+
+.inlineEditorInput > button{
+    background-color: white;
+    border: 1px solid var(--primary-surface);
+    cursor: pointer;
+}
+
+.usersList{
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+    background-color: var(--white);
+}
+
+.userListContainer{
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.usersList > ul{
+    border: 1px solid var(--primary-surface);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.assignee > p{
+    padding-block: 0.5rem;
+    cursor: pointer;
+}
+
+.assignee > p:hover{
+    border: 1px solid var(--primary-surface);
+}

@@ -1,0 +1,280 @@
+.header{
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+    justify-content: space-between;
+    margin-block: 1rem;
+}
+
+.detailsHeader{
+    display: flex;
+    justify-content: space-between;
+}
+
+.detailsHeader > button{
+    width: 3rem;
+    font-size: 3rem;
+    color: var(--primary-text);
+    background-color: transparent;
+    border: 0;
+}
+
+.createButton{
+    padding: 1rem;
+    background-color: var(--primary-surface);
+    color: var(--white);
+    border: 1px solid var(--primary-text);
+    border-radius: 1rem;
+}
+
+.subHeader{
+    padding-inline: 2.5%;
+}
+
+.taskContainer > * {
+    border-top: var(--secondary-surface) solid 1px;
+}
+
+.taskContainer > :last-child {
+    border-bottom: var(--secondary-surface) solid 1px;
+}
+
+.task{
+    display: flex;
+    align-items: center;
+    padding-inline: 5%;
+    padding-block: 1rem;
+    justify-content: space-between;
+}
+
+.selected{
+    background-color: red;
+}
+
+.taskTitle{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.taskTable{
+    background-color: var(--white);
+    overflow-y: auto;
+    box-sizing: border-box;
+    border: 1px solid var(--secondary-surface);
+    box-shadow: var(--elevation-3-shadow);
+    min-height: 5rem;
+    
+}
+
+.taskTable::-webkit-scrollbar, .taskDetails::-webkit-scrollbar, .modal::-webkit-scrollbar {
+    width: 5px;
+}
+  
+.taskTable::-webkit-scrollbar-track, .taskDetails::-webkit-scrollbar-track, .modal::-webkit-scrollbar-track{
+    background: var(--secondary-surface);
+}
+
+.taskTable::-webkit-scrollbar-thumb, .taskDetails::-webkit-scrollbar-thumb, .modal::-webkit-scrollbar-thumb, .taskTable::-webkit-scrollbar-thumb:hover, .taskDetails::-webkit-scrollbar-thumb:hover, .modal::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-surface);
+}
+
+.taskTable > div > div > h2 {
+    padding-block: 1rem;
+}
+
+.taskView{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    max-height: 100%;
+}
+
+.taskSelector{
+    width: 100%;
+    max-height: 100%;
+    flex: 25% 100% 100%;
+    overflow-y: clip;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.taskDetails{
+    padding-inline: 1.5rem;
+    padding-block: 1.87rem;
+    min-width: 60%;
+    background-color: var(--white);
+    overflow-y: auto;
+    box-sizing: border-box;
+    border: 1px solid var(--secondary-surface);
+    box-shadow: var(--elevation-3-shadow);
+}
+
+.information{
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.information > span {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: center;
+    width: 21rem;
+}
+
+.information > span > b{
+    min-width: 6rem;
+    width: 6rem;
+}
+
+.information > span > *, .information > span > * > * {
+    margin: 0
+}
+
+.information > textarea{
+    height: 20rem;
+    border-color: var(--primary-surface);
+}
+
+.information > textarea :active{
+    border-color: var(--primary-surface);
+}
+
+.iconContainer{
+    background-color: var(--primary-surface);
+    border-radius: 100%;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modalBackground{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.modal{
+    background-color: var(--white);
+    width: 30rem;
+    height: 70%;
+    overflow-y: auto;
+    border: 1px solid var(--primary-surface);
+    -webkit-box-shadow: 0px 0px 50px -11px var(--primary-surface);
+    -moz-box-shadow: 0px 0px 50px -11px var(--primary-surface);
+    box-shadow: 0px 0px 50px -11px var(--primary-surface);
+}
+
+.inputBox{
+    position: relative;
+    background-color: var(--white);
+    color: var(--primary-text);
+    padding: 1rem;
+    padding-bottom: 0;
+    font-size: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputBox > label{
+    opacity: 0.75;
+}
+
+.inputBox > input, .inputBox > div > div > input{
+    box-sizing: border-box !important;
+}
+
+.inputBox > input:focus, .inputBox > div > div > input:focus{
+    border-width: 2px;
+}
+
+.loginInput, .inputBox > div > div > input{
+    all: unset;
+    min-height: 2rem;
+    width: 100%;
+    font-size: 1rem;
+    border: 1px solid var(--primary-surface);
+    border-radius: 4px 4px 0 0;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+}
+
+.buttons{
+    margin: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons > button{
+    height: 2rem;
+    font-family: "DM Sans", sans-serif;
+    background-color: var(--primary-surface);
+    color: var(--white);
+    border: 1px solid var(--primary-surface);
+    border-radius: 4px 4px 0 0;
+}
+
+.buttons :first-child{
+    background-color: var(--white);
+    color: var(--primary-surface);
+}
+
+.usersList{
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+    background-color: var(--white);
+}
+
+.userListContainer{
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.usersList > ul{
+    border: 1px solid var(--primary-surface);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.userEntry {
+    border-top: 1px solid var(--primary-surface);
+    background-color: var(--white);
+    padding: 0.5rem;
+}
+
+.selectedUser{
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-inline: 1rem;
+}
+
+.selectedUser >  *{
+    max-width: 5rem;
+    border: 1px solid var(--primary-surface);
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+    
+}

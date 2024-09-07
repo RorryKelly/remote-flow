@@ -1,0 +1,21 @@
+{
+  "name": "chat-server",
+  "version": "1.0.0",
+  "description": "server to handle chats for the Remote Flow application",
+  "type": "commonjs",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "tsc && node --env-file=.env dist/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^6.8.0",
+    "ts-node": "^10.9.2",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.12",
+    "typescript": "^5.5.4"
+  }
+}

@@ -1,0 +1,91 @@
+.selectedUser{
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-inline: 1rem;
+    padding: 0;
+    margin: 0;
+}
+
+.selectedUser >  *{
+    max-width: 5rem;
+    border: 1px solid var(--primary-surface);
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+    
+}
+
+.inputBox{
+    position: relative;
+    background-color: var(--white);
+    color: var(--primary-text);
+    padding: 1rem;
+    padding-bottom: 0;
+    font-size: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputBox > label{
+    opacity: 0.75;
+}
+
+.inputBox > input, .inputBox > div > div > input{
+    box-sizing: border-box !important;
+}
+
+.inputBox > input:focus, .inputBox > div > div > input:focus{
+    border-width: 2px;
+}
+
+.newChatInput, .inputBox > div > div > input{
+    all: unset;
+    min-height: 2rem;
+    width: 100%;
+    font-size: 1rem;
+    border: 1px solid var(--primary-surface);
+    border-radius: 4px 4px 0 0;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+}
+
+.usersList{
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+    background-color: var(--white);
+}
+
+.userListContainer{
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.usersList > ul{
+    border: 1px solid var(--primary-surface);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.userEntry {
+    border-top: 1px solid var(--primary-surface);
+    background-color: var(--white);
+    padding: 0.5rem;
+}
+
+.selectedUsers{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.1rem;
+    padding-inline: 1rem;
+    margin: 0;
+}

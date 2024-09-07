@@ -1,0 +1,16 @@
+.activity{
+    min-height: 5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid var(--secondary-surface)
+}
+
+.activity > * {
+    padding: 1rem;
+}
+
+.log{
+    flex: 60% 1000px 90%;
+    width: 100%;
+}

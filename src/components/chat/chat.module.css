@@ -1,0 +1,297 @@
+.chatProvider{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.chatbox{
+    min-width: 23rem;
+}
+
+.header{
+    width: auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: var(--white);
+    border: 2px solid var(--primary-surface);
+}
+
+.chatcontent{
+    height: 350px;
+    border: 1px solid var(--primary-surface);
+    background-color: var(--white);
+    border-top: 0;
+}
+
+.chatboxContainer{
+    position: relative;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    box-sizing: border-box;
+    gap: 1rem;
+}
+
+.messageArea{
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.messageArea > div {
+    margin-bottom: 0.25rem;
+}
+
+.messageArea::-webkit-scrollbar {
+    width: 5px;
+}
+  
+.messageArea::-webkit-scrollbar-track{
+    background: var(--secondary-surface);
+}
+
+.messageArea::-webkit-scrollbar-thumb, .messageArea::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-surface);
+}
+
+.incomingChat{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-self: center;
+    gap: 0.5rem;
+}
+
+.messageText {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.outgoingChat > .messageText{
+    text-align: end;
+}
+
+.messageText p{
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+.incomingChat > .messageText > span {
+    width: fit-content;
+    background-color: var(--primary-surface);
+    color: var(--off-white);
+    border-radius: 0.75rem 0.75rem 0.75rem 0;
+    padding: 0.5rem;
+}
+
+.incomingChat > div:not(.messageText){
+    display: flex;
+    justify-content: center;
+    align-self: flex-end;
+    margin-block-end: 0.5rem;
+    padding: 7px;
+    border-radius: 100%;
+    background-color: var(--primary-surface);
+}
+
+.outgoingChat{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-self: center;
+    gap: 0.5rem;
+}
+
+.outgoingChat > .messageText > span {
+    display: flex;
+    align-self: center;
+    background-color: var(--off-white);
+    color: var(--primary-surface);
+    border-radius: 0.75rem 0.75rem 0% 0.75rem;
+    padding: 0.5rem;
+}
+
+.outgoingChat > div:not(.messageText){
+    display: flex;
+    justify-content: center;
+    align-self: flex-end;
+    margin-block-end: 0.5rem;
+    padding: 7px;
+    border-radius: 100%;
+    background-color: var(--primary-surface);
+}
+
+.input{
+    width: 100%;
+    border: 1px var(--primary-surface) solid;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 0.5rem;
+    box-sizing: border-box;
+}
+
+.input > input{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    outline: none;
+    border-radius: 30px;
+    border: 0;
+}
+
+.input > button{
+    background: none;
+    border: 0;
+}
+
+.chatlist{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    padding-inline: 0.5rem;
+    gap: 1rem;
+    overflow-y: auto;
+}
+
+
+.chatlist::-webkit-scrollbar {
+    width: 5px;
+}
+  
+.chatlist::-webkit-scrollbar-track{
+    background: var(--secondary-surface);
+}
+
+.chatlist::-webkit-scrollbar-thumb, .chatlist::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-surface);
+}
+
+
+.iconContainer{
+    background-color: var(--primary-surface);
+    border-radius: 100%;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chatEntry{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.chatEntry:hover{
+    text-shadow: 1px 1px 1px var(--primary-text);
+}
+
+.createConvo{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-inline: 1.5rem;
+    margin-block: 0.5rem;
+    border-color: var(--primary-surface);
+    border-radius: 40%;
+    padding: 1rem;
+    background-color: var(--primary-surface);
+    color: var(--off-white);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+
+.modalBackground{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.modal{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--white);
+    width: 100%;
+    height: 70%;
+    overflow-y: auto;
+    border: 1px solid var(--primary-surface);
+    border-radius: 1rem 1rem 0 0;
+    -webkit-box-shadow: 0px 0px 50px -11px var(--primary-surface);
+    -moz-box-shadow: 0px 0px 50px -11px var(--primary-surface);
+    box-shadow: 0px 0px 50px -11px var(--primary-surface);
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;
+}
+
+.inputBox{
+    position: relative;
+    background-color: var(--white);
+    color: var(--primary-text);
+    padding: 1rem;
+    padding-bottom: 0;
+    font-size: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputBox > label{
+    opacity: 0.75;
+}
+
+.inputBox > input, .inputBox > div > div > input{
+    box-sizing: border-box !important;
+}
+
+.inputBox > input:focus, .inputBox > div > div > input:focus{
+    border-width: 2px;
+}
+
+.newChatInput, .inputBox > div > div > input{
+    all: unset;
+    min-height: 2rem;
+    width: 100%;
+    font-size: 1rem;
+    border: 1px solid var(--primary-surface);
+    border-radius: 4px 4px 0 0;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+}
+
+.button{    
+    margin-block: auto 0.25rem;
+    margin-right: 1rem;
+    align-self: end;
+    display: flex;
+    font-size: 1.5rem;
+    font-family: "DM Sans", sans-serif;
+    background-color: var(--primary-surface);
+    color: var(--white);
+    border: 1px solid var(--primary-surface);
+    border-radius: 4px 4px 0 0;
+}
+
+.buttons :first-child{
+    background-color: var(--white);
+    color: var(--primary-surface);
+}
