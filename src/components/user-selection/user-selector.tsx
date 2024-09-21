@@ -99,7 +99,7 @@ const ListOfUsers = ({accounts, handleClick}: userListProps) => {
         <div className={styles.userListContainer}>
             <div className={styles.usersList}>
                 <ul>
-                    {newAccounts.map((account, index) =>(
+                    {newAccounts?.map((account, index) =>(
                         <li onClick={(event)=> handleClick(event, account)} key={account.firstName!} className={styles.userEntry}>
                             {account.image} <span>{account.firstName} {account.lastName}</span>
                         </li>

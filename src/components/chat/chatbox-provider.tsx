@@ -12,8 +12,10 @@ export default function ChatBoxProvider(){
     const [selectedConversations, setSelectedConversation] = useState<ConversationDetails[]>([]);
 
     useEffect(() => {
+        console.log('test');
         GetOpenConversations().then((response: ConversationDetails[] | undefined)=>{
             if(response){
+                console.log(Object.keys(response).length)
                 setSelectedConversation(response);
             }
         })
@@ -34,9 +36,9 @@ export default function ChatBoxProvider(){
                 <ChatList selectedConversations={selectedConversations} setSelectedConversation={setSelectedConversation} />
             </ChatBox>
 
-            {selectedConversations.map((conversation, index)=>(
+            {selectedConversations?.map((conversation, index)=>(
                 <ChatBox key={index} onClose={()=>onClose(conversation)} title={conversation.chatTitle}>
-                    <Conversation chatId={conversation._id!.toString()} />
+                    <Conversation chatId={conversation._id?.toString()} />
                 </ChatBox>
             ))}
         </div>

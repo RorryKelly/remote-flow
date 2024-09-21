@@ -2,8 +2,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './editor.module.css';
 import { FaPlus } from "react-icons/fa6";
-import { comment, TaskMetadata } from '../../../src/lib/definitions';
-import { revalidatePath } from 'next/cache';
 import dynamic from 'next/dynamic';
 import Loading from '../loading/loading';
 

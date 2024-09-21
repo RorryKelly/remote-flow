@@ -17,12 +17,11 @@ export async function FetchUserConversations(){
 }
 
 export async function FetchConversation(chatId: string){
-    console.log(chatId);
     let conversation = await GetConversation(new ObjectId(chatId));
     if(conversation){
         return conversation as ConversationDetails;
     }
-    return {} as ConversationDetails;
+    return undefined;
 }
 
 export async function CreateNewConversation(chatTitle: string, users: AppAccount[]){

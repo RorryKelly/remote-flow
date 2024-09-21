@@ -8,6 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest, {params}: {params: { id: string }}) {
     try {
         const session: Session | null = await auth();
+        console.log(params);
 
         const results = await getAssignedUsersForProject(params.id);
 

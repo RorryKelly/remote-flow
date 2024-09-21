@@ -1,0 +1,58 @@
+name: RemoteFlow
+services:
+    remoteflow:
+        build: 
+            context: .
+            args:
+                - API_URL=
+                - AUTH_GOOGLE_ID=
+                - AUTH_GOOGLE_SECRET=
+                - AUTH_SECRET=
+                - AUTH_TRUST_HOST=
+                - MONGODB_URI=
+        environment:
+            - API_URL=
+            - AUTH_GOOGLE_ID=
+            - AUTH_GOOGLE_SECRET=
+            - AUTH_SECRET=
+            - AUTH_TRUST_HOST=
+            - MONGODB_URI=
+        ports:
+            - 3000:3000
+        networks:
+            - remoteflow-network
+        depends_on:
+            - mongo
+    chat-server:
+        build: 
+            context: ./chat-server
+            dockerfile: DockerFile
+            args:
+                - MONGODB_URI=
+        environment:
+            - MONGODB_URI=
+        ports: 
+            - 1324:1324
+        networks:   
+            - remoteflow-network
+        depends_on:
+            - mongo
+    mongo:
+        image: mongo:latest
+        container_name: mongodb
+        ports:
+        - "27017:27017"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
+        networks:
+            - remoteflow-network
+        volumes:
+            - remoteflow-database:/home/node/app
+
+volumes:
+  remoteflow-database:
+
+networks:
+  remoteflow-network:
+    driver: bridge

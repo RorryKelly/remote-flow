@@ -7,7 +7,7 @@ import { ObjectId } from 'mongodb';
 export async function GetSessionInformation(sessionId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const result = await db.collection("sessions")
             .findOne({sessionToken: sessionId.toString()});
@@ -21,7 +21,7 @@ export async function GetSessionInformation(sessionId: string){
 export async function GetAppAccount(userId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const result = await db.collection("AppAccounts")
             .findOne({oAuthId: userId});
@@ -35,7 +35,7 @@ export async function GetAppAccount(userId: string){
 export async function GetUserConversations(userId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const result = await db.collection("ConversationUsers")
             .findOne({userId: userId});
@@ -49,7 +49,7 @@ export async function GetUserConversations(userId: string){
 export async function GetConversationMessages(chatId: string, userId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const query = await db.collection("ConversationMessages")
             .find({chatId: chatId});
@@ -70,7 +70,7 @@ export async function GetConversationMessages(chatId: string, userId: string){
 export async function GetConversation(chatId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const result = await db.collection("Conversation")
             .findOne({_id: new ObjectId(chatId)});
@@ -84,7 +84,7 @@ export async function GetConversation(chatId: string){
 export async function CreateConversation(event: JoinEvent){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const conversation = {
             chatTitle: event.data.title
@@ -113,7 +113,7 @@ export async function CreateConversation(event: JoinEvent){
 export async function IsUserInConversation(chatId: string, userId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const result = await db.collection("ConversationUsers")
             .findOne({userId: userId, chatId: chatId});
@@ -127,7 +127,7 @@ export async function IsUserInConversation(chatId: string, userId: string){
 export async function JoinConversation(chatId: string, userId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const result = await db.collection("ConversationUsers")
             .insertOne({userId: userId, chatId: chatId});
@@ -141,7 +141,7 @@ export async function JoinConversation(chatId: string, userId: string){
 export async function GetConversationUsers(chatId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const query = await db.collection("ConversationUsers")
             .find({chatId: chatId});
 
@@ -162,7 +162,7 @@ export async function GetConversationUsers(chatId: string){
 export async function SendMessage(event: MessageEvent){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const message = {
             chatId: event.chatId,
             sender: event.data.sender,
