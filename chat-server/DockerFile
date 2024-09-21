@@ -1,0 +1,24 @@
+# Specify the base image
+FROM node:18-alpine
+
+# Set the working directory inside the container
+WORKDIR /usr/src/app
+
+ARG MONGODB_URI
+
+# Copy package.json and package-lock.json to the container
+COPY package*.json ./
+
+ENV MONGODB_URI ${MONGODB_URI}
+
+# Install the app dependencies
+RUN npm install --production
+
+# Copy the rest of the application code to the container
+COPY . .
+
+# Expose the port the app will run on
+EXPOSE 1324
+
+# Start the application
+CMD ["npm", "start"]

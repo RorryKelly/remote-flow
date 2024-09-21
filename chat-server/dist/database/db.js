@@ -28,7 +28,7 @@ function GetSessionInformation(sessionId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const client = yield dbClient_1.default;
-            const db = client.db("RemoteFlow_Db");
+            const db = client.db("RemoteFlow_Db2");
             const result = yield db.collection("sessions")
                 .findOne({ sessionToken: sessionId.toString() });
             return result;
@@ -42,7 +42,7 @@ function GetAppAccount(userId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const client = yield dbClient_1.default;
-            const db = client.db("RemoteFlow_Db");
+            const db = client.db("RemoteFlow_Db2");
             const result = yield db.collection("AppAccounts")
                 .findOne({ oAuthId: userId });
             return result;
@@ -56,7 +56,7 @@ function GetUserConversations(userId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const client = yield dbClient_1.default;
-            const db = client.db("RemoteFlow_Db");
+            const db = client.db("RemoteFlow_Db2");
             const result = yield db.collection("ConversationUsers")
                 .findOne({ userId: userId });
             return result;
@@ -70,7 +70,7 @@ function GetConversationMessages(chatId, userId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const client = yield dbClient_1.default;
-            const db = client.db("RemoteFlow_Db");
+            const db = client.db("RemoteFlow_Db2");
             const query = yield db.collection("ConversationMessages")
                 .find({ chatId: chatId });
             let result = [];
@@ -90,7 +90,7 @@ function GetConversation(chatId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const client = yield dbClient_1.default;
-            const db = client.db("RemoteFlow_Db");
+            const db = client.db("RemoteFlow_Db2");
             const result = yield db.collection("Conversation")
                 .findOne({ _id: new mongodb_1.ObjectId(chatId) });
             return result === null || result === void 0 ? void 0 : result._id.toString();
@@ -104,7 +104,7 @@ function CreateConversation(event) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const client = yield dbClient_1.default;
-            const db = client.db("RemoteFlow_Db");
+            const db = client.db("RemoteFlow_Db2");
             const conversation = {
                 chatTitle: event.data.title
             };
@@ -131,7 +131,7 @@ function IsUserInConversation(chatId, userId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const client = yield dbClient_1.default;
-            const db = client.db("RemoteFlow_Db");
+            const db = client.db("RemoteFlow_Db2");
             const result = yield db.collection("ConversationUsers")
                 .findOne({ userId: userId, chatId: chatId });
             return result != null;
@@ -145,7 +145,7 @@ function JoinConversation(chatId, userId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const client = yield dbClient_1.default;
-            const db = client.db("RemoteFlow_Db");
+            const db = client.db("RemoteFlow_Db2");
             const result = yield db.collection("ConversationUsers")
                 .insertOne({ userId: userId, chatId: chatId });
             return result;
@@ -159,7 +159,7 @@ function GetConversationUsers(chatId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const client = yield dbClient_1.default;
-            const db = client.db("RemoteFlow_Db");
+            const db = client.db("RemoteFlow_Db2");
             const query = yield db.collection("ConversationUsers")
                 .find({ chatId: chatId });
             let results = [];
@@ -180,7 +180,7 @@ function SendMessage(event) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const client = yield dbClient_1.default;
-            const db = client.db("RemoteFlow_Db");
+            const db = client.db("RemoteFlow_Db2");
             const message = {
                 chatId: event.chatId,
                 sender: event.data.sender,

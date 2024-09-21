@@ -7,11 +7,12 @@ import { FaPlus,FaCheck } from "react-icons/fa6";
 import { Fragment, useState } from 'react';
 import { AppAccount, Project, Stage } from '../../../lib/definitions';
 import { useRouter } from 'next/navigation'
+import getCookie from '@/lib/get-cookie';
 
 interface ProjectDetailsProps {
-    setProjectDetails: React.Dispatch<React.SetStateAction<Project>>
-    setCurrentScreen: React.Dispatch<React.SetStateAction<number>>
-    projectDetails: Project
+    setProjectDetails?: React.Dispatch<React.SetStateAction<Project>>
+    setCurrentScreen?: React.Dispatch<React.SetStateAction<number>>
+    projectDetails?: Project
 }
 
 export default function Users({setProjectDetails, setCurrentScreen, projectDetails}: ProjectDetailsProps){
@@ -29,20 +30,34 @@ export default function Users({setProjectDetails, setCurrentScreen, projectDetai
         const errors = await assignUsers();        
 
         if(errors.length == 0){
-            router.push(`/project/${projectDetails._id}/task-board`);        
+            router.push(`/project/${projectDetails?._id}/task-board`);        
         } else {
             setErrorIndicies(errors);
         }
     }
 
+    const assignCreator = async () => {
+        const oAuthId = getCookie('authjs.session-token');
+        const response = await fetch(`/api/users?oAuthId=${oAuthId}`);
+
+        if(response.status == 200){
+            const result = await response.json() as AppAccount;
+            fetch(`/api/project/${projectDetails?._id?.toString()}/users/${result._id?.toString()}`, {
+                method: 'POST'
+            });
+        }
+    }
+
     const assignUsers = async (): Promise<number[]> => {
         let errors: number[] = [];
+        
+        assignCreator();
 
         for(let i = 0; i < users.length; i++){
             const response = await fetch(`/api/users?firstName=${users[i].firstName}&lastName=${users[i].lastName}&sharecode=${users[i].sharecode}`);
             if(response.status == 200){
                 const result = await response.json() as AppAccount;
-                fetch(`/api/project/${projectDetails._id?.toString()}/users/${result._id?.toString()}`, {
+                fetch(`/api/project/${projectDetails?._id?.toString()}/users/${result._id?.toString()}`, {
                     method: 'POST'
                 });
             } else {
@@ -128,8 +143,17 @@ export default function Users({setProjectDetails, setCurrentScreen, projectDetai
                         </button>
                     </div>
                     
-                    <button id='skip' type='button' onClick={()=> router.push(`/project/${projectDetails._id}/task-board`) } style={{marginTop: '1rem', marginRight: 'calc(32rem - 29.5rem)', marginLeft: 'auto'}} className={`button light ${styles.button}`}>
-                            <span style={{marginLeft: '1rem'}}>Skip</span>
+                    <button 
+                        id='skip' 
+                        type='button' 
+                        onClick={()=> {
+                            assignCreator();
+                            router.push(`/project/${projectDetails?._id}/task-board`) 
+                        }} 
+                        style={{marginTop: '1rem', marginRight: 'calc(32rem - 29.5rem)', marginLeft: 'auto'}} 
+                        className={`button light ${styles.button}`}
+                    >
+                        <span style={{marginLeft: '1rem'}}>Skip</span>
                     </button>
                 </form>
             </div>
@@ -137,16 +161,16 @@ export default function Users({setProjectDetails, setCurrentScreen, projectDetai
             <div className={styles.projectSheet}>
                 <div className={styles.projectTitle}>
                     <div className={styles.sheetIcon}> <FaList/> </div>
-                    <h2>{projectDetails.title}</h2>
+                    <h2>{projectDetails?.title}</h2>
                 </div>
 
                 <div>
                     {[...Array(20)].map((user:any, index: number) => (
                         <div key={`container-${index}`} >
-                            {index % 3 == 0  && projectDetails.stages?.at((index / 3)) &&  (
+                            {index % 3 == 0  && projectDetails?.stages?.at((index / 3)) &&  (
                                 <div key={`stage-header-${index}`} style={{borderBottom: '1px solid'}} className={`${styles.stageTitle} subHeader`}>
                                     {
-                                        (projectDetails.stages.at((index / 3)) as Stage).title
+                                        (projectDetails?.stages.at((index / 3)) as Stage).title
                                     }
                                 </div>
                             )}

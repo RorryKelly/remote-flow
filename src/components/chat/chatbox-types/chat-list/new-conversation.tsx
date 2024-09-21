@@ -3,23 +3,19 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from '../../chat.module.css';
 import "react-datepicker/dist/react-datepicker.css";
 import { AppAccount } from "@/lib/definitions";
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { MdCreate } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import UserSelector from "@/components/user-selection/user-selector";
 import clickCheck from "@/lib/click-check";
 import { CreateNewConversation } from "../../actions";
 
-interface taskProps{
-    projectId: string;
-}
-
-export default function NewConversation({projectId}: taskProps){
+export default function NewConversation(){
     const [title, setTitle] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState<AppAccount[]>([]);
-    const router = useRouter();
     const ref = useRef(null); 
+    const { projectId } = useParams();
 
     useEffect(()=>{
         if(showModal){
@@ -55,7 +51,7 @@ export default function NewConversation({projectId}: taskProps){
 
                         <UserSelector 
                             label={'Participants'}
-                            projectId={projectId} 
+                            projectId={projectId as string} 
                             multipleSelectors 
                             selectedUsers={selectedUser} 
                             setUsers={setSelectedUser} />

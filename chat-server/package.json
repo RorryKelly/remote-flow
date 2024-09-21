@@ -5,7 +5,8 @@
   "type": "commonjs",
   "main": "dist/server.js",
   "scripts": {
-    "start": "tsc && node --env-file=.env dist/server.js"
+    "dev": "tsc && node --env-file=.env.local dist/server.js",
+    "start": "tsc && node dist/server.js"
   },
   "author": "",
   "license": "ISC",

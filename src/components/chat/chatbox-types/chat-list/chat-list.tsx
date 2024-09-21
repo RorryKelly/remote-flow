@@ -37,7 +37,7 @@ export default function ChatList({selectedConversations, setSelectedConversation
     return (
         <div className={styles.chatboxContainer} style={{justifyContent: "flex-start"}}>
             <ul className={styles.chatlist}>
-                {conversatons.map((conversation, index)=>(
+                {conversatons?.map((conversation, index)=>(
                     <li key={`conversation-${index}`} className={styles.chatEntry} onClick={()=>selectConversation(conversation)}>
                         <span className={styles.authorPicture}>
                             <span className={styles.iconContainer}>
@@ -56,7 +56,7 @@ export default function ChatList({selectedConversations, setSelectedConversation
                 ))}
             </ul>
 
-            <NewConversation projectId="66cb26be6cf5fa08a5e530f4" />
+            <NewConversation />
         </div>
     )
 }

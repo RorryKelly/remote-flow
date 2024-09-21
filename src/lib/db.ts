@@ -8,7 +8,7 @@ import { ObjectId } from 'mongodb';
 export async function getUserProjects(user: AppAccount){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const query = await db.collection<AssignedProject>("ProjectUsers")
             .find({userId: user._id});
@@ -28,7 +28,7 @@ export async function getUserProjects(user: AppAccount){
 export async function getAssignedUsersForProject(projectId: string): Promise<AppAccount[] | undefined> {
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const objectId = new ObjectId(projectId);
 
         const query = db.collection<AssignedProject>("ProjectUsers")
@@ -50,7 +50,7 @@ export async function getAssignedUsersForProject(projectId: string): Promise<App
 export async function assignUserToProject(userId: string, projectId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const userProject: AssignedProject = {
             userId: new ObjectId(userId),
             projectId: new ObjectId(projectId),
@@ -68,7 +68,7 @@ export async function assignUserToProject(userId: string, projectId: string){
 export async function getUserProjectsById(id: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const objectId = new ObjectId(id);
 
         const query = await db.collection("Projects")
@@ -84,7 +84,7 @@ export async function getUserProjectsById(id: string){
 export async function createUserProject(project: Project){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const stages = project.stages as Stage[];
         project.stages = null;
 
@@ -107,7 +107,7 @@ export async function createUserProject(project: Project){
 export async function deleteProject(projectId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const deleteProjectUsers = await db.collection<Project>("ProjectUsers")
             .deleteMany({projectId: new ObjectId(projectId)});
@@ -125,7 +125,7 @@ export async function deleteProject(projectId: string){
 export async function createAccountDetails(account: AppAccount){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const collection = db.collection("AppAccounts");
         const createdAccount = await collection.insertOne(account);
@@ -138,7 +138,7 @@ export async function createAccountDetails(account: AppAccount){
 export async function GetAppAccountDetails(userId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const objectId = new ObjectId(userId);
         console.log(objectId);
 
@@ -154,7 +154,7 @@ export async function GetAppAccountDetails(userId: string){
 export async function deleteAppAccountDetails(userId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const result = await db.collection<AppAccount>("AppAccounts")
             .deleteOne({_id: new ObjectId(userId)});
@@ -168,7 +168,7 @@ export async function deleteAppAccountDetails(userId: string){
 export async function getUserAppAccount(oAuthId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const result = await db.collection("AppAccounts")
             .findOne<AppAccount>({oAuthId: oAuthId});
@@ -182,7 +182,7 @@ export async function getUserAppAccount(oAuthId: string){
 export async function getUserAppAccountByName(firstName: string, lastName: string, sharecode: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const result = await db.collection("AppAccounts")
             .findOne<AppAccount>({firstName: firstName, lastName: lastName, sharecode: sharecode});
 
@@ -200,7 +200,7 @@ export async function createStage(stage: Stage, projectId: string, createdById: 
         stage.tasks = null;
         stage.projectId = projectId;
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
 
         const collection = db.collection("Stages");
@@ -222,7 +222,7 @@ export async function createStage(stage: Stage, projectId: string, createdById: 
 export async function deleteStage(stageId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const deleteStage = await db.collection<Stage>("Stages")
             .deleteOne({_id: new ObjectId(stageId)});
@@ -237,7 +237,7 @@ export async function deleteStage(stageId: string){
 export async function getStagesForProject(projectId: string) : Promise<Stage[] | string>{
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const objectId = new ObjectId(projectId);
 
         const resultStage = await db.collection<Stage>("Stages")
@@ -253,7 +253,7 @@ export async function getStagesForProject(projectId: string) : Promise<Stage[] |
 export async function getFirstStageByProject(projectId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const resultStage = await db.collection<Stage>("Stages")
             .findOne({projectId: projectId},
                     { sort: { pos: 1 } });
@@ -268,7 +268,7 @@ export async function getFirstStageByProject(projectId: string){
 export async function getStageById(stageId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const resultStage = await db.collection<Stage>("Stages")
             .findOne({_id: new ObjectId(stageId)});
 
@@ -283,7 +283,7 @@ export async function getStageById(stageId: string){
 export async function getTasks(stage: Stage){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const resultProject = await db.collection<Task>("Tasks")
             .find({stageId: stage._id?.toString()}).toArray();
         
@@ -297,7 +297,7 @@ export async function getTasks(stage: Stage){
 export async function getTaskById(id: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const resultTask = await db.collection<Task>("Tasks")
             .findOne({_id: new ObjectId(id)});
         
@@ -311,7 +311,7 @@ export async function getTaskById(id: string){
 export async function createTask(task: Task, stageId: string, createdById: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         task.stageId = stageId;
         task.createdBy = createdById
 
@@ -328,7 +328,7 @@ export async function createTask(task: Task, stageId: string, createdById: strin
 export async function updateTaskStage(taskId: string, stageId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const collection = db.collection("Tasks");
         const result = await collection.updateOne({_id: new ObjectId(taskId)}, {$set: {stageId: stageId}})
@@ -342,7 +342,7 @@ export async function updateTaskStage(taskId: string, stageId: string){
 export async function createNewComment(newComment: comment){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
 
         const collection = db.collection("Comments");
@@ -358,7 +358,7 @@ export async function createNewComment(newComment: comment){
 export async function GetTasksComments(taskId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const resultTask = await db.collection<comment>("Comments")
             .find({taskId: taskId}).toArray();
         
@@ -372,7 +372,7 @@ export async function GetTasksComments(taskId: string){
 export async function deleteTask(taskId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const deleteComments = await db.collection<comment>("Comments")
             .deleteMany({taskId: taskId});
 
@@ -391,7 +391,7 @@ export async function deleteTask(taskId: string){
 export async function EditTaskDescription(newDescription: string, taskId: string){
     try{
         const client = await clientPromise; 
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const taskMetadata = await db.collection("Tasks")
         const result = await taskMetadata.updateOne({_id: new ObjectId(taskId)}, {$set: {description: newDescription}})
         return result;
@@ -404,7 +404,7 @@ export async function EditTaskDescription(newDescription: string, taskId: string
 export async function createTaskActivityLog(activity: activity){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
 
         const collection = db.collection("Activity");
@@ -420,7 +420,7 @@ export async function createTaskActivityLog(activity: activity){
 export async function getTaskActivities(taskId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
         const resultTask = await db.collection<activity>("Activity")
             .find({taskId: taskId}).toArray();
         
@@ -434,7 +434,7 @@ export async function getTaskActivities(taskId: string){
 export async function assignTaskToUser(taskId: string, userId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const collection = db.collection("Tasks");
         const result = await collection.updateOne({_id: new ObjectId(taskId)}, {$set: {assignee: userId}})
@@ -449,7 +449,7 @@ export async function assignTaskToUser(taskId: string, userId: string){
 export async function updateDueDate(dueDate: Date, taskId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const collection = db.collection("Tasks");
         const result = await collection.updateOne({_id: new ObjectId(taskId)}, {$set: {dueDate: dueDate}})
@@ -464,7 +464,7 @@ export async function updateDueDate(dueDate: Date, taskId: string){
 export async function GetUserConversations(userId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const query = await db.collection("ConversationUsers")
             .find({userId: userId});
@@ -500,7 +500,7 @@ export async function GetUserConversations(userId: string){
 export async function GetConversation(chatId: ObjectId){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const result = await db.collection<ConversationDetails>("Conversation")
             .findOne({_id: chatId});
@@ -514,7 +514,7 @@ export async function GetConversation(chatId: ObjectId){
 export async function CreateConversation(title: string, participants: AppAccount[]){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const result = await db.collection("Conversation")
             .insertOne({chatTitle: title});
@@ -532,7 +532,7 @@ export async function CreateConversation(title: string, participants: AppAccount
 export async function AddToConversation(chatId: string, userId: string){
     try{
         const client = await clientPromise;
-        const db = client.db("RemoteFlow_Db");
+        const db = client.db("RemoteFlow_Db2");
 
         const result = await db.collection("ConversationUsers")
             .insertOne({userId: userId, chatId: chatId});

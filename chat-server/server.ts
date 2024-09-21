@@ -5,7 +5,7 @@ import parse from './jsonParser';
 import ChatEvent from './events/event';
 import ChatEventFactory from './events/event-factory';
 
-const wss = new WebSocketServer({ port: 1324, host: 'localhost' });
+const wss = new WebSocketServer({ port: 1324 });
 
 wss.on('listening', async ()=>{
   console.log('started listening on: ' + JSON.stringify(wss.address()));
