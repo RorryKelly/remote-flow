@@ -8,6 +8,7 @@ on:
 jobs:
   deploy-ec2:
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - name: Checkout Repository
