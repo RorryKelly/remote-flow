@@ -3,7 +3,7 @@ name: Deploy to Production
 on:
   push:
     branches:
-      - develop
+      - RorryKelly-patch-1
 
 jobs:
   deploy-ec2:
