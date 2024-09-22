@@ -51,7 +51,7 @@ jobs:
 
       - name: Copy Repository to EC2
         run: |
-          scp -o StrictHostKeyChecking=no -i ec2-key.pem -r ./ ec2-user@${{ steps.ec2-info.outputs.public_ip }}:/home/ec2-user/repo
+          scp -o StrictHostKeyChecking=no -i ec2-key.pem -r * ec2-user@${{ steps.ec2-info.outputs.public_ip }}:/home/ec2-user/repo
 
       - name: SSH into EC2 and Run Docker Compose
         run: |
