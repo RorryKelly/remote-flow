@@ -1,0 +1,56 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy-ec2:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Start EC2 Instance
+        run: |
+          aws ec2 start-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
+          aws ec2 wait instance-running --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
+
+      - name: Get EC2 Instance Public IP
+        id: ec2-info
+        run: |
+          PUBLIC_IP=$(aws ec2 describe-instances \
+            --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
+            --query "Reservations[0].Instances[0].PublicIpAddress" \
+            --output text)
+          echo "::set-output name=public_ip::$PUBLIC_IP"
+
+      - name: Wait for EC2 to be Ready
+        run: |
+          sleep 60  # Waiting for EC2 to be fully ready
+
+      - name: Install Docker and Docker Compose on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.EC2_KEY_NAME }} \
+          ec2-user@${{ steps.ec2-info.outputs.public_ip }} \
+          "sudo yum update -y && sudo amazon-linux-extras install docker -y && sudo service docker start && sudo usermod -a -G docker ec2-user && sudo curl -L 'https://github.com/docker/compose/releases/download/2.0.0/docker-compose-$(uname -s)-$(uname -m)' -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose"
+
+      - name: Copy Repository to EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.EC2_KEY_NAME }} \
+          -r . ec2-user@${{ steps.ec2-info.outputs.public_ip }}:/home/ec2-user/repo
+
+      - name: SSH into EC2 and Run Docker Compose
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.EC2_KEY_NAME }} \
+          ec2-user@${{ steps.ec2-info.outputs.public_ip }} \
+          "cd /home/ec2-user/repo && docker-compose -f ${{ secrets.DOCKER_COMPOSE_FILE }} up -d"
