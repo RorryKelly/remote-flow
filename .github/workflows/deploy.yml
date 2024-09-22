@@ -48,9 +48,10 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@${{ steps.ec2-info.outputs.public_ip }} \
           "sudo yum update -y && sudo yum install docker -y && sudo service docker start && sudo usermod -a -G docker ec2-user && sudo curl -L 'https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)' -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose"
+      
       - name: Copy Repository to EC2
         run: |
-          scp -o StrictHostKeyChecking=no -i ec2-key.pem -r . ec2-user@${{ steps.ec2-info.outputs.public_ip }}:/home/ec2-user/repo
+          scp -o StrictHostKeyChecking=no -i ec2-key.pem -r /github/workspace/. ec2-user@${{ steps.ec2-info.outputs.public_ip }}:/home/ec2-user/repo
 
       - name: SSH into EC2 and Run Docker Compose
         run: |
