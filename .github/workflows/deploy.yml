@@ -41,26 +41,26 @@ jobs:
 
       - name: Add SSH Key
         run: |
-          echo "${{ secrets.EC2_PRIVATE_KEY }}" > ec2-key.pem
-          chmod 600 ec2-key.pem  # Make sure the key has the correct permissions
+          echo "${{ secrets.EC2_PRIVATE_KEY }}" > RemoteFlow.pem
+          chmod 600 RemoteFlow.pem
 
       - name: Install Docker and other dependencies on EC2
         run: |
-          ssh -o ConnectTimeout=6000 -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@${{ steps.ec2-info.outputs.public_ip }} \
+          ssh -o ConnectTimeout=6000 -o StrictHostKeyChecking=no -i RemoteFlow.pem ec2-user@${{ steps.ec2-info.outputs.public_ip }} \
           "sudo yum update -y && sudo yum install docker -y && sudo service docker start && sudo usermod -a -G docker ec2-user && sudo curl -L 'https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)' -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose && sudo yum install -y python3 python3-pip libxcrypt-compat"
           
       - name: Create Directory on EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@${{ steps.ec2-info.outputs.public_ip }} \
+          ssh -o StrictHostKeyChecking=no -i RemoteFlow.pem ec2-user@${{ steps.ec2-info.outputs.public_ip }} \
           "mkdir -p /home/ec2-user/repo"
 
       - name: Copy Repository to EC2
         run: |
-          scp -o ConnectTimeout=6000 -o StrictHostKeyChecking=no -i ec2-key.pem -r * ec2-user@${{ steps.ec2-info.outputs.public_ip }}:/home/ec2-user/repo
+          scp -o ConnectTimeout=6000 -o StrictHostKeyChecking=no -i RemoteFlow.pem -r * ec2-user@${{ steps.ec2-info.outputs.public_ip }}:/home/ec2-user/repo
 
       - name: SSH into EC2 and Run Docker Compose with Secrets
         run: |
-          ssh -o ConnectTimeout=6000 -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@${{ steps.ec2-info.outputs.public_ip }} \
+          ssh -o ConnectTimeout=6000 -o StrictHostKeyChecking=no -i RemoteFlow.pem ec2-user@${{ steps.ec2-info.outputs.public_ip }} \
           "cd /home/ec2-user/repo && \
           API_URL=${{ secrets.API_URL }} \
           AUTH_GOOGLE_ID=${{ secrets.AUTH_GOOGLE_ID }} \
