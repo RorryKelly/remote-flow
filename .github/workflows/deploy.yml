@@ -48,11 +48,11 @@ jobs:
         run: |
           ssh -o ConnectTimeout=6000 -o StrictHostKeyChecking=no -i RemoteFlow.pem ec2-user@$PUBLIC_IP \
           "sudo yum update -y && sudo yum install docker -y && sudo systemctl start docker && sudo usermod -a -G docker ec2-user && \
+          sudo rm -f /usr/local/bin/docker-compose && \
           sudo curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-aarch64 -o /usr/local/bin/docker-compose && \
           sudo chmod +x /usr/local/bin/docker-compose && \
           sudo yum install -y python3 python3-pip libxcrypt-compat && \
-          file /usr/local/bin/docker-compose && \
-          /usr/local/bin/docker-compose --version"  # Check if docker-compose is valid
+          /usr/local/bin/docker-compose --version"
 
       - name: Create Directory on EC2
         run: |
