@@ -67,4 +67,7 @@ jobs:
           API_URL=${{ secrets.API_URL }} \
           AUTH_GOOGLE_ID=${{ secrets.AUTH_GOOGLE_ID }} \
           AUTH_GOOGLE_SECRET=${{ secrets.AUTH_GOOGLE_SECRET }} \
-          AUTH_
+          AUTH_SECRET=${{ secrets.AUTH_SECRET }} \
+          AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }} \
+          MONGODB_URI=${{ secrets.MONGODB_URI }} \
+          docker-compose -f ${{ secrets.DOCKER_COMPOSE_FILE }} up -d"
