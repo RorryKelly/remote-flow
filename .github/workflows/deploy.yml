@@ -47,8 +47,8 @@ jobs:
       - name: Install Docker and other dependencies on EC2 (aarch64 only)
         run: |
           ssh -o ConnectTimeout=6000 -o StrictHostKeyChecking=no -i RemoteFlow.pem ec2-user@$PUBLIC_IP \
-          "sudo yum update -y && sudo yum install docker -y && sudo service docker start && sudo usermod -a -G docker ec2-user && \
-          sudo curl -L 'https://github.com/docker/compose/releases/download/1.29.2/docker-compose-\$(uname -s)-aarch64' -o /usr/local/bin/docker-compose && \
+          "sudo yum update -y && sudo yum install docker -y && sudo systemctl start docker && sudo usermod -a -G docker ec2-user && \
+          sudo curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-aarch64 -o /usr/local/bin/docker-compose && \
           sudo chmod +x /usr/local/bin/docker-compose && sudo yum install -y python3 python3-pip libxcrypt-compat"
 
       - name: Create Directory on EC2
@@ -67,7 +67,4 @@ jobs:
           API_URL=${{ secrets.API_URL }} \
           AUTH_GOOGLE_ID=${{ secrets.AUTH_GOOGLE_ID }} \
           AUTH_GOOGLE_SECRET=${{ secrets.AUTH_GOOGLE_SECRET }} \
-          AUTH_SECRET=${{ secrets.AUTH_SECRET }} \
-          AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }} \
-          MONGODB_URI=${{ secrets.MONGODB_URI }} \
-          docker-compose -f ${{ secrets.DOCKER_COMPOSE_FILE }} up -d"
+          AUTH_
