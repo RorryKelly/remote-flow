@@ -1,4 +1,4 @@
-name: Deploy to EC2 and Run Docker Compose
+name: Build & Publish Docker Image
 
 on:
   push:
@@ -6,71 +6,39 @@ on:
       - RorryKelly-patch-1
 
 jobs:
-  deploy-ec2:
+  build:
+    name: Build & push docker image
     runs-on: ubuntu-latest
-    environment: production
-
+    env:
+      IMG_NAME: ${{ github.repository }}
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+      - name: Debug
+        run: |
+          echo "github.ref -> {{ github.ref }}"
+ 
+      - name: Docker metadata
+        id: metadata
+        uses: docker/metadata-action@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          images: ${{ env.IMG_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value={{sha}},enable=${{ github.ref_type != 'tag' }}
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        if: ${{ github.ref_type == 'tag' }}
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Start EC2 Instance
-        run: |
-          aws ec2 start-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
-          aws ec2 wait instance-running --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
-
-      - name: Get EC2 Instance Public IP
-        id: ec2-info
-        run: |
-          PUBLIC_IP=$(aws ec2 describe-instances \
-            --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
-            --query "Reservations[0].Instances[0].PublicIpAddress" \
-            --output text)
-          echo "PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
-
-      - name: Wait for EC2 to be Ready
-        run: |
-          sleep 60  # Wait for EC2 to be ready
-
-      - name: Add SSH Key
-        run: |
-          echo "${{ secrets.EC2_PRIVATE_KEY }}" > RemoteFlow.pem
-          chmod 600 RemoteFlow.pem
-
-      - name: Install Docker and other dependencies on EC2
-        run: |
-          ssh -o ConnectTimeout=6000 -o StrictHostKeyChecking=no -i RemoteFlow.pem ec2-user@$PUBLIC_IP \
-          "sudo yum update -y && sudo yum install docker -y && sudo systemctl start docker && sudo usermod -a -G docker ec2-user && \
-          sudo rm -f /usr/local/bin/docker-compose && \
-          sudo curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose && \
-          sudo chmod +x /usr/local/bin/docker-compose && \
-          sudo yum install -y python3 python3-pip libxcrypt-compat && \
-          /usr/local/bin/docker-compose --version"
-
-      - name: Create Directory on EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no -i RemoteFlow.pem ec2-user@$PUBLIC_IP \
-          "mkdir -p /home/ec2-user/repo"
-
-      - name: Copy Repository to EC2
-        run: |
-          scp -o ConnectTimeout=6000 -o StrictHostKeyChecking=no -i RemoteFlow.pem -r * ec2-user@$PUBLIC_IP:/home/ec2-user/repo
-
-      - name: SSH into EC2 and Run Docker Compose with Secrets
-        run: |
-          ssh -o ConnectTimeout=6000 -o StrictHostKeyChecking=no -i RemoteFlow.pem ec2-user@$PUBLIC_IP \
-          "cd /home/ec2-user/repo && \
-          API_URL=${{ secrets.API_URL }} \
-          AUTH_GOOGLE_ID=${{ secrets.AUTH_GOOGLE_ID }} \
-          AUTH_GOOGLE_SECRET=${{ secrets.AUTH_GOOGLE_SECRET }} \
-          AUTH_SECRET=${{ secrets.AUTH_SECRET }} \
-          AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }} \
-          MONGODB_URI=${{ secrets.MONGODB_URI }} \
-          docker-compose -f ${{ secrets.DOCKER_COMPOSE_FILE }} up -d"
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: ${{ github.event.base_ref =='refs/heads/main' && github.ref_type == 'tag' && !startsWith(github.ref, 'refs/tags/v0.')}}
+          tags: ${{ steps.metadata.outputs.tags }}
+          labels: ${{ steps.metadata.outputs.labels }}
