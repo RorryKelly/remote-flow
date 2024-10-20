@@ -15,37 +15,37 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Debug
-        run: |
-          echo "github.ref -> {{ github.ref }}"
-
-      - name: Docker metadata
-        id: metadata
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.IMG_NAME }}
-          tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=raw,value={{sha}},enable=${{ github.ref_type != 'tag' }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
-        if: ${{ github.ref_type == 'tag' }}
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        run: |
+          docker build --build-arg API_URL=${{ secrets.API_URL }} --build-arg AUTH_GOOGLE_ID=${{ secrets.AUTH_GOOGLE_ID }} --build-arg AUTH_GOOGLE_SECRET=${{ secrets.AUTH_GOOGLE_SECRET }}  --build-arg AUTH_SECRET=${{ secrets.AUTH_SECRET }} -build-arg AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }} --build-arg MONGODB_URI=${{ secrets.MONGODB_URI }} -t remoteflow .
+          docker tag remoteflow ${{ secrets.DOCKER_USERNAME }}/remoteflow:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/remoteflow:latest
+
+          docker build --build-arg MONGODB_URI=${{ secrets.MONGODB_URI }} -t remoteflow-chat ./chat-server
+          docker tag remoteflow ${{ secrets.DOCKER_USERNAME }}/remoteflow-chat:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/remoteflow-chat:latest
+
+      - name: Install SSH Key
+        uses: webfactory/ssh-agent@v0.5.3
         with:
-          context: .
-          push: ${{ github.event.base_ref == 'refs/heads/main' && github.ref_type == 'tag' && !startsWith(github.ref, 'refs/tags/v0.') }}
-          tags: ${{ steps.metadata.outputs.tags }}
-          labels: ${{ steps.metadata.outputs.labels }}
-          secrets: |
-            AUTH_GOOGLE_ID=${{ secrets.AUTH_GOOGLE_ID }}
-            AUTH_GOOGLE_SECRET=${{ secrets.AUTH_GOOGLE_SECRET }}
-            AUTH_SECRET=${{ secrets.AUTH_SECRET }}
-            AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }}
-            MONGODB_URI=${{ secrets.MONGODB_URI }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy Docker image to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
+          docker pull ${{ secrets.DOCKER_USERNAME }}/remoteflow:latest
+          docker stop $(docker ps -a -q) || true
+          docker run -d -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/remoteflow:latest
+
+          docker pull ${{ secrets.DOCKER_USERNAME }}/remoteflow-chat:latest
+          docker run -d -p 1324:1324 ${{ secrets.DOCKER_USERNAME }}/remoteflow-chat:latest
+          EOF

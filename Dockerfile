@@ -1,21 +1,22 @@
 FROM node:18
 
+ARG API_URL
+ARG AUTH_GOOGLE_ID
+ARG AUTH_GOOGLE_SECRET
+ARG AUTH_SECRET
+ARG AUTH_TRUST_HOST
+ARG MONGODB_URI
+
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
 EXPOSE 3000
-RUN --mount=type=secret,id=API_URL \
-  --mount=type=secret,id=AUTH_GOOGLE_ID \
-  --mount=type=secret,id=AUTH_GOOGLE_SECRET \
-  --mount=type=secret,id=AUTH_SECRET \
-  --mount=type=secret,id=AUTH_TRUST_HOST \
-  --mount=type=secret,id=MONGODB_URI \
-  export AUTH_GOOGLE_ID=$(cat /run/secrets/AUTH_GOOGLE_ID) && \
-  export API_URL=$(cat /run/secrets/API_URL) && \
-  export AUTH_GOOGLE_SECRET=$(cat /run/secrets/AUTH_GOOGLE_SECRET) && \
-  export AUTH_SECRET=$(cat /run/secrets/AUTH_SECRET) && \
-  export AUTH_SECRET=$(cat /run/secrets/AUTH_TRUST_HOST) && \
-  export AUTH_SECRET=$(cat /run/secrets/MONGODB_URI) && \
+ENV API_URL ${API_URL}
+ENV AUTH_GOOGLE_ID ${AUTH_GOOGLE_ID}
+ENV AUTH_GOOGLE_SECRET ${AUTH_GOOGLE_SECRET}
+ENV AUTH_SECRET ${AUTH_SECRET}
+ENV AUTH_TRUST_HOST ${AUTH_TRUST_HOST}
+ENV MONGODB_URI ${MONGODB_URI}
 RUN npm run build
 CMD npm run dev

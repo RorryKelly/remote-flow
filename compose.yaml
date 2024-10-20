@@ -28,7 +28,7 @@ services:
   chat-server:
     build: 
       context: ./chat-server
-      dockerfile: DockerFile
+      dockerfile: Dockerfile
       args:
         - MONGODB_URI=${MONGODB_URI:-mongodb://localhost:27017}
     environment:
