@@ -1,54 +1,57 @@
-name: RemoteFlow
+version: '3.8'
+
 services:
-    remoteflow:
-        build: 
-            context: .
-            args:
-                - API_URL=
-                - AUTH_GOOGLE_ID=
-                - AUTH_GOOGLE_SECRET=
-                - AUTH_SECRET=
-                - AUTH_TRUST_HOST=
-                - MONGODB_URI=
-        environment:
-            - API_URL=
-            - AUTH_GOOGLE_ID=
-            - AUTH_GOOGLE_SECRET=
-            - AUTH_SECRET=
-            - AUTH_TRUST_HOST=
-            - MONGODB_URI=
-        ports:
-            - 3000:3000
-        networks:
-            - remoteflow-network
-        depends_on:
-            - mongo
-    chat-server:
-        build: 
-            context: ./chat-server
-            dockerfile: DockerFile
-            args:
-                - MONGODB_URI=
-        environment:
-            - MONGODB_URI=
-        ports: 
-            - 1324:1324
-        networks:   
-            - remoteflow-network
-        depends_on:
-            - mongo
-    mongo:
-        image: mongo:latest
-        container_name: mongodb
-        ports:
-        - "27017:27017"
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: example
-        networks:
-            - remoteflow-network
-        volumes:
-            - remoteflow-database:/home/node/app
+  remoteflow:
+    build: 
+      context: .
+      args:
+        - API_URL=${API_URL:-http://localhost:3000}
+        - AUTH_GOOGLE_ID=${AUTH_GOOGLE_ID:-default-google-id}
+        - AUTH_GOOGLE_SECRET=${AUTH_GOOGLE_SECRET:-default-google-secret}
+        - AUTH_SECRET=${AUTH_SECRET:-default-auth-secret}
+        - AUTH_TRUST_HOST=${AUTH_TRUST_HOST:-false}
+        - MONGODB_URI=${MONGODB_URI:-mongodb://localhost:27017}
+    environment:
+      - API_URL=${API_URL:-http://localhost:3000}
+      - AUTH_GOOGLE_ID=${AUTH_GOOGLE_ID:-default-google-id}
+      - AUTH_GOOGLE_SECRET=${AUTH_GOOGLE_SECRET:-default-google-secret}
+      - AUTH_SECRET=${AUTH_SECRET:-default-auth-secret}
+      - AUTH_TRUST_HOST=${AUTH_TRUST_HOST:-false}
+      - MONGODB_URI=${MONGODB_URI:-mongodb://localhost:27017}
+    ports:
+      - 3000:3000
+    networks:
+      - remoteflow-network
+    depends_on:
+      - mongo
+
+  chat-server:
+    build: 
+      context: ./chat-server
+      dockerfile: Dockerfile
+      args:
+        - MONGODB_URI=${MONGODB_URI:-mongodb://localhost:27017}
+    environment:
+      - MONGODB_URI=${MONGODB_URI:-mongodb://localhost:27017}
+    ports: 
+      - 1324:1324
+    networks:   
+      - remoteflow-network
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - remoteflow-network
+    volumes:
+      - remoteflow-database:/home/node/app
 
 volumes:
   remoteflow-database:
