@@ -35,11 +35,7 @@ jobs:
           docker build --build-arg API_URL=${{ secrets.API_URL }} --build-arg AUTH_GOOGLE_ID=${{ secrets.AUTH_GOOGLE_ID }} --build-arg AUTH_GOOGLE_SECRET=${{ secrets.AUTH_GOOGLE_SECRET }}  --build-arg AUTH_SECRET=${{ secrets.AUTH_SECRET }} --build-arg AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }} --build-arg MONGODB_URI=${{ secrets.MONGODB_URI }} -t remoteflow .
           docker tag remoteflow ${{ secrets.DOCKER_USERNAME }}/remoteflow:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/remoteflow:latest
-
-          docker build --build-arg MONGODB_URI=${{ secrets.MONGODB_URI }} -t remoteflow-chat ./chat-server
-          docker tag remoteflow ${{ secrets.DOCKER_USERNAME }}/remoteflow-chat:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/remoteflow-chat:latest
-
+          
       - name: Install SSH Key
         uses: webfactory/ssh-agent@v0.5.3
         with:
