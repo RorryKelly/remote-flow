@@ -21,7 +21,7 @@ jobs:
       - name: Check Secrets
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        if: DOCKER_USERNAME != null
+        if: env.DOCKER_USERNAME != null
         run: echo "$DOCKER_USERNAME"
 
       - name: Log in to Docker Hub
