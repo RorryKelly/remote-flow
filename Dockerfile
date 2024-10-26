@@ -1,4 +1,4 @@
-FROM node:18
+FROM --platform=linux/amd64 node:lts-alpine
 
 ARG API_URL
 ARG AUTH_GOOGLE_ID
