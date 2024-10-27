@@ -1,5 +1,5 @@
 #!/bin/bash
-FROM --platform=linux/amd64 node:lts-alpine
+FROM node:18
 
 ARG API_URL
 ARG AUTH_GOOGLE_ID

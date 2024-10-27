@@ -1,7 +1,5 @@
 #!/bin/bash
-
-# Specify the base image
-FROM --platform=linux/amd64 node:lts-alpine
+FROM node:18
 
 # Set the working directory inside the container
 WORKDIR /usr/src/app
