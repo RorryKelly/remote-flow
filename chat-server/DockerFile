@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Specify the base image
 FROM --platform=linux/amd64 node:lts-alpine
 

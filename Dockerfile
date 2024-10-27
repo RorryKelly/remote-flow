@@ -1,3 +1,4 @@
+#!/bin/bash
 FROM --platform=linux/amd64 node:lts-alpine
 
 ARG API_URL
