@@ -32,7 +32,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker compose -f ./docker/dev/compose.yaml build 
+          ls
+          docker compose -f ./docker/prod/compose.yaml build 
           docker tag remote-flow-remoteflow ${{ secrets.DOCKER_USERNAME }}/remote-flow-remoteflow:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/remote-flow-remoteflow:latest
 
