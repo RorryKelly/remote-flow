@@ -1,0 +1,56 @@
+name: Build & Publish Docker Image
+
+on:
+  push:
+    branches:
+      - RorryKelly-patch-1
+
+jobs:
+  build:
+    name: Build & push docker image
+    runs-on: ubuntu-latest
+    env:
+      IMG_NAME: ${{ github.repository }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Check Secrets
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        if: env.DOCKER_USERNAME != null
+        run: echo "$DOCKER_USERNAME"
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2.1.0
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        run: |
+          ls
+          docker compose -f ./docker/prod/compose.yaml build 
+          docker tag remote-flow-remoteflow ${{ secrets.DOCKER_USERNAME }}/remote-flow-remoteflow:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/remote-flow-remoteflow:latest
+
+          docker tag remote-flow-chat-server ${{ secrets.DOCKER_USERNAME }}/remote-flow-chat-server:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/remote-flow-chat-server:latest
+          
+      - name: Install SSH Key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy Docker image to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
+          docker pull ${{ secrets.DOCKER_USERNAME }}/remote-flow-remoteflow:latest
+          docker pull ${{ secrets.DOCKER_USERNAME }}/remote-flow-chat-server:latest
+          docker stop $(docker ps -a -q) || true
+          docker run -d -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/remote-flow-remoteflow:latest
+          docker run -d -p 1324:1324 ${{ secrets.DOCKER_USERNAME }}/remote-flow-chat-server:latest
+          EOF

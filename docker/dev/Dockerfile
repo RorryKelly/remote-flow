@@ -1,3 +1,4 @@
+#!/bin/bash
 FROM node:18
 
 ARG API_URL
@@ -8,9 +9,9 @@ ARG AUTH_TRUST_HOST
 ARG MONGODB_URI
 
 WORKDIR /app
-COPY package*.json ./
+COPY ../../package*.json ./
 RUN npm install
-COPY . .
+COPY ../../ .
 EXPOSE 3000
 ENV API_URL ${API_URL}
 ENV AUTH_GOOGLE_ID ${AUTH_GOOGLE_ID}
